@@ -8,13 +8,13 @@ sudo pacman -S --needed base-devel zsh zsh-autosuggestions zsh-syntax-highlighti
 echo "export ZDOTDIR=\"\$HOME/.config/zsh\""| sudo tee /etc/zsh/zshenv
 mkdir -p ~/.cache/zsh
 touch ~/.cache/zsh/history
+git clone https://github.com/lincheney/fzf-tab-completion.git ~/.config/fzf-tab
 rsync -av ./zsh ~/.config
 rsync -av ./fontconfig ~/.config
 rsync -av ./.local ~/
 rsync -av ./vim ~/.config
 rsync -av ./Pictures ~/
 rsync -av ./.xinitrc ~/
-rsync -av ./fzf-tab ~/.config
 printf "$GREEN loading admin packages $NC \n"
 sudo pacman -S --needed - < ~/.local/bin/adminpkg.txt && printf "$GREEN Successful admin pkgs $NC \n"||printf "$RED admin packages failed $NC \n"
 printf "$GREEN loading sound  packages"
