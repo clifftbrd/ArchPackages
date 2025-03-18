@@ -1,0 +1,41 @@
+#!/bin/sh
+# Display volume levels.
+
+#wpctl() {
+#    arg="$2"
+#
+#    set -- "$1"
+#    if [ "$1" = set-sink-volume ]; then
+#        set -- "$@" --limit=1.0
+#    fi
+#
+#    set -- "$@" @DEFAULT_SINK@ "$arg"
+#
+#    command wpctl "$@"
+#}
+
+case "$BLOCK_BUTTON" in
+    1) setsid -w -f "$TERMINAL" -e pulsemixer; pkill -RTMIN+10 "${STATUSBAR:-dwmblocks}" ;;
+    2) pamixer -t; pkill -RTMIN+10 "{STATUSBAR:-dwmblocks}" ;;
+    4) pamixer -i 5; pkill -RTMIN+10 "{STATUSBAR:-dwmblocks}" ;;
+    5) pmixer -d 5; pkill -RTMIN+10 "{STATUSBAR:-dwmblocks}" ;;
+    6) terminal -e "$EDITOR" "$0" ;;
+esac
+
+sb-theme
+if pamixer get-volume-human | grep -q "[muted]"; then
+    echo " "
+    exit
+fi
+
+volume_frac="$(pactl get-sink-volume @DEFAULT_SINK@ | cut -d' ' -f2)"
+vol="$(pamixer --get-volume)"
+
+case 1 in
+	$((vol >= 70)) ) icon="🔊" ;;
+	$((vol >= 30)) ) icon="🔉" ;;
+	$((vol >= 1)) ) icon="🔈" ;;
+	* ) echo 🔇 && exit ;;
+esac
+
+echo "$icon$vol%"

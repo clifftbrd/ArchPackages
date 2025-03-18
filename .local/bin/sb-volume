@@ -1,0 +1,26 @@
+#!/bin/sh
+# Display volume levels.
+
+
+case "$BLOCK_BUTTON" in
+    1) pamixer -t; pkill -RTMIN+10 "{STATUSBAR:-dwmblocks}" ;;
+    3) pamixer -t; pkill -RTMIN+10 "{STATUSBAR:-dwmblocks}" ;;
+    4) pamixer -i 5; pkill -RTMIN+10 "{STATUSBAR:-dwmblocks}" ;;
+    5) pamixer -d 5; pkill -RTMIN+10 "{STATUSBAR:-dwmblocks}" ;;
+    6) setsid -f "$TERMINAL" -e "$EDITOR" "$0" ;;
+esac
+
+sb-theme
+
+vol="$(pamixer --get-volume)"
+mut="$(pamixer --get-volume-human)"
+
+case 1 in
+	$((vol >= 70)) ) icon="🔊" ;;
+	$((vol >= 30)) ) icon="🔉" ;;
+	$((vol >= 1)) ) icon="🔈" ;;
+	* ) echo 🔇 && exit ;;
+esac
+
+[ $mut = "muted" ] && echo 🔇 || echo "$icon$vol%"
+#echo "$icon$vol%"

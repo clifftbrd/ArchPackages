@@ -1,0 +1,11 @@
+#!/bin/sh
+
+printf "Beginning upgrade.\\n"
+printf "Initiated from Status Bar Click.\\n"
+printf "Updates will be using sudo pacman -Syu\\n"
+
+sudo pacman -Syu
+pkill -RTMIN+8 "${STATUSBAR:-dwmblocks}"
+
+printf "\\nUpgrade complete.\\nPress <Enter> to exit window.\\n\\n"
+read -r _

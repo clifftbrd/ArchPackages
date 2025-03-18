@@ -1,0 +1,18 @@
+#!/bin/sh
+# Display spotify song and artist.
+
+
+case "$BLOCK_BUTTON" in
+    1) playerctl previous; pkill -RTMIN+9 "{STATUSBAR:-dwmblocks}" ;;
+    3) playerctl next; pkill -RTMIN+9 "{STATUSBAR:-dwmblocks}" ;;
+    6) setsid -f "$TERMINAL" -e "$EDITOR" "$0" ;;
+esac
+
+#sb-theme
+
+song="$(playerctl metadata title)" 2>/dev/null
+band="$(playerctl metadata artist)" 2>/dev/null
+playing="$(playerctl status)" 2>/dev/null
+
+[ "$playing" == "Playing" ] && echo "🎵 $band:$song" || echo ""
+#echo "$icon$vol%"
