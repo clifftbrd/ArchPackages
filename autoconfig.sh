@@ -14,6 +14,7 @@ rsync -av ./.local ~/
 rsync -av ./vim ~/.config
 rsync -av ./Pictures ~/
 rsync -av ./.xinitrc ~/
+rsync -av ./fzf-tab ~/.config
 printf "$GREEN loading admin packages $NC \n"
 sudo pacman -S --needed - < ~/.local/bin/adminpkg.txt && printf "$GREEN Successful admin pkgs $NC \n"||printf "$RED admin packages failed $NC \n"
 printf "$GREEN loading sound  packages"

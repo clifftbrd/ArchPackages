@@ -81,6 +81,6 @@ source <(fzf --zsh)
 source $ZDOTDIR/auto-ls.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $ZDOTDIR/fzf-tab/fzf-tab.plugin.zsh
+source $HOME/.config/fzf-tab/zsh/fzf-tab-completion.plugin.zsh
 
 autoload -U compinit && compinit
