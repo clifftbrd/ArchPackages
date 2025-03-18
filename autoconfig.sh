@@ -15,6 +15,8 @@ rsync -av ./.local ~/
 rsync -av ./vim ~/.config
 rsync -av ./Pictures ~/
 rsync -av ./.xinitrc ~/
+rsync -av ./dwmblocks-async ~/.config
+rsync -av ./dwm-6.5 ~/.config
 printf "$GREEN loading admin packages $NC \n"
 sudo pacman -S --needed - < ~/.local/bin/adminpkg.txt && printf "$GREEN Successful admin pkgs $NC \n"||printf "$RED admin packages failed $NC \n"
 printf "$GREEN loading sound  packages"
@@ -22,10 +24,10 @@ sudo pacman -S --needed - < ~/.local/bin/soundpkg.txt && printf "$GREEN Successf
 printf "$GREEN loading print packages"
 sudo pacman -S --needed - < ~/.local/bin/printpkg.txt && printf "$GREEN Successful print pkgs $NC \n"||printf "$RED print packages failed $NC \n"
 chsh -s /bin/zsh
-#printf "$GREEN install dwm!! $NC \n"
-#cd $HOME/.config/dwm-6.5
-#sudo make clean install&&printf "$GREEN dwm success!! $NC \n"||printf "$RED dwm failed $NC \n"
-#printf "$GREEN install dwmblocks!! $NC \n"
-#cd $HOME/.config/dwmblocks-async
-#sudo make clean install&&printf "$GREEN dwmblocks success!! $NC \n"||printf "$RED dwmblocks failed!! $NC \n"
-#printf "$GREEN autoconfig conmplete $NC \n"
+printf "$GREEN install dwm!! $NC \n"
+cd $HOME/.config/dwm-6.5
+sudo make clean install&&printf "$GREEN dwm success!! $NC \n"||printf "$RED dwm failed $NC \n"
+printf "$GREEN install dwmblocks!! $NC \n"
+cd $HOME/.config/dwmblocks-async
+sudo make clean install&&printf "$GREEN dwmblocks success!! $NC \n"||printf "$RED dwmblocks failed!! $NC \n"
+printf "$GREEN autoconfig conmplete $NC \n"

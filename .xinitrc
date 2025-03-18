@@ -44,11 +44,11 @@ fi
 
 #picom -b --config /home/cliff/.config/picom/picom.conf &
 #start-conky.sh &
-redshift -l 40.26257:-80.18728 &
-/usr/bin/dunst &
+#redshift -l 40.26257:-80.18728 &
+#/usr/bin/dunst &
 /home/cliff/.fehbg &
 #feh --bg-fill --randomize ~/Pictures/wallpapers/* &
-locked &
+#locked &
 dwmblocks &
 
 
