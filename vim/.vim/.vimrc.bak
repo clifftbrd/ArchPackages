@@ -1,0 +1,8 @@
+colorscheme evening
+
+syntax on
+filetype on
+vnoremap <C-c> "+y
+map <C-p> "+p
+" Adds line numbers"
+set number
