@@ -42,12 +42,13 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  unset f
 fi
 
+xrandr -s 3140x2160
 #picom -b --config /home/cliff/.config/picom/picom.conf &
 #start-conky.sh &
 #redshift -l 40.26257:-80.18728 &
 #/usr/bin/dunst &
-/home/cliff/.fehbg &
-#feh --bg-fill --randomize ~/Pictures/wallpapers/* &
+#/home/cliff/.fehbg &
+feh --bg-fill --randomize ~/Pictures/wallpapers/* &
 #locked &
 dwmblocks &
 
