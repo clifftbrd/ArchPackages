@@ -8,7 +8,6 @@ gsfonts
 imagemagick
 intel-ucode
 firefox
-konsole
 lsb-release
 man-db
 networkmanager-openvpn
