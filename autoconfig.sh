@@ -17,6 +17,7 @@ rsync -av ./Pictures ~/
 rsync -av ./.xinitrc ~/
 rsync -av ./dwmblocks-async ~/.config
 rsync -av ./dwm-6.5 ~/.config
+rsync -av ./st ~/.config
 printf "$GREEN loading admin packages $NC \n"
 sudo pacman -S --needed - < ~/.local/bin/adminpkg.txt && printf "$GREEN Successful admin pkgs $NC \n"||printf "$RED admin packages failed $NC \n"
 printf "$GREEN loading sound  packages"
@@ -30,4 +31,7 @@ sudo make clean install&&printf "$GREEN dwm success!! $NC \n"||printf "$RED dwm 
 printf "$GREEN install dwmblocks!! $NC \n"
 cd $HOME/.config/dwmblocks-async
 sudo make clean install&&printf "$GREEN dwmblocks success!! $NC \n"||printf "$RED dwmblocks failed!! $NC \n"
-printf "$GREEN autoconfig conmplete $NC \n"
+printf "$GREEN install st terminal!! $NC \n"
+cd $HOME/.config/st
+sudo make clean install&&printf "$GREEN st terminal success!! $NC \n"||printf "$RED st terminal failed!! $NC \n"
+printf "$GREEN autoconfig complete $NC \n"
