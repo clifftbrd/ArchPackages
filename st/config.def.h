@@ -5,7 +5,7 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "DejaVu Sans Mono:pixelsize=20";
+static char *font = "Liberation Mono:size=8";
 /* Spare fonts */
 static char *font2[] = {
 	"DejaVu Sans:pixelsize=16",
