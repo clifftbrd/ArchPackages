@@ -23,18 +23,17 @@ getprecipchance() {
 }
 
 getdailyhighlow() {
-	echo "$weatherdata" | sed '13q;d' |      # Extract line 13 from file
+	echo "$weatherdata" | sed '4q;d' |      # Extract line 13 from file
 		grep -o "m\\([-+]\\)*[0-9]\\+" | # Find temperatures in the format "m<signed number>"
 		sed 's/[+m]//g' |                # Remove '+' and 'm'
-		sort -g |                        # Sort in ascending order
-		sed -e 1b -e '$!d'               # Extract the first and last lines
+		head -n1               # Extract the first and last lines
 }
 
 readfile() { weatherdata="$(cat "$weatherreport")" ;}
 
 showweather() {
 	readfile
-	printf "☔%s 🥶%s° 🌞%s°\n" "$(getprecipchance)" $(getdailyhighlow)
+	printf "🌞%s°\n" $(getdailyhighlow)
 }
 
 case $BLOCK_BUTTON in
