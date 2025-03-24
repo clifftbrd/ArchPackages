@@ -22,7 +22,7 @@
     X("", "sb-date", 1, 7)     \
     X("", "sb-spotify", 1, 9)  \
     X("", "sb-volume", 0, 10)  \
-    X("", "sb-forecast", 18000, 11) \
+    X("", "sb-weather", 60, 11) \
     X("", "sb-disk", 1800, 3)  \
     X("", "sb-memory", 10, 4)  \
     X("", "sb-loadavg", 5, 5)  \

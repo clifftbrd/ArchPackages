@@ -1,0 +1,59 @@
+#!/bin/bash
+
+#Shows the weather with icon for sky image
+
+url="${WTTRURL:-wttr.in}"
+weatherreport="${XDG_CACHE_HOME:-$HOME/.cache}/weatherreport"
+
+# Get a weather report from 'wttr.in' and save it locally.
+getforecast() { timeout --signal=1 5s curl -sf "$url/$LOCATION" > "$weatherreport" || exit 1; }
+
+# Check if the local file is older than 1 hour or is empty
+checkforecast() {
+    now=$(date +%s)
+    weatherdate=$(stat -c %Y ~/.cache/weatherreport)
+    delta=$(expr $now - $weatherdate)
+    [ $delta -lt 3600 ] && [ -s ~/.cache/weatherreport ]
+}
+
+# Read local file to extract temp and sky image
+getinfo() {
+skystate=$(cat ~/.cache/weatherreport|sed '3q;d'|grep -o "[A-Z][a-z]*")
+temp=$(cat ~/.cache/weatherreport|sed '4q;d'|grep -o 'm[+-][0-9].'|sed 's/[+m]//g')
+case $skystate in
+    Sunny)
+        printf "☀ %s°\n" $temp;;
+    Clear)
+        printf "☀ %s°\n" $temp;;
+    Overcast)    
+        printf "☁ %s°\n" $temp;;
+    Rain)    
+        printf "🌧 %s°\n" $temp;;
+    Snow)
+        printf "🌨 %s°\n" $temp;;
+    Patchy)
+        printf "🌦 %s°\n" $temp;;
+    Mist | Fog)
+        printf "🌫 %s°\n" $temp;;
+    Partly | Cloudy)
+        printf "⛅ %s°\n" $temp;;
+    *)
+        printf "🍄 %s°\n" $temp;;
+esac
+}
+
+
+
+case $BLOCK_BUTTON in
+	1) setsid -f "$TERMINAL" -e less -Sf "$weatherreport" ;;
+	2) getforecast && showweather ;;
+	3) notify-send "🌈 Weather module" "\- Left click for full forecast.
+- Middle click to update forecast.
+☔: Chance of rain/snow
+🥶: Daily low
+🌞: Daily high" ;;
+	6) setsid -f "$TERMINAL" -e "$EDITOR" "$0" ;;
+esac
+
+checkforecast || getforecast
+sleep 5 && getinfo
