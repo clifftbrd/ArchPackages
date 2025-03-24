@@ -8,7 +8,7 @@ weatherreport="${XDG_CACHE_HOME:-$HOME/.cache}/weatherreport"
 # Get a weather report from 'wttr.in' and save it locally.
 getforecast() { timeout --signal=1 5s curl -sf "$url/$LOCATION" > "$weatherreport" || exit 1; }
 
-# Check if the local file is older than 1 hour or is empty
+# Check if the local file is younger than 1 hour and is not empty
 checkforecast() {
     now=$(date +%s)
     weatherdate=$(stat -c %Y ~/.cache/weatherreport)
@@ -20,38 +20,43 @@ checkforecast() {
 getinfo() {
 skystate=$(cat ~/.cache/weatherreport|sed '3q;d'|grep -o "[A-Z][a-z]*")
 temp=$(cat ~/.cache/weatherreport|sed '4q;d'|grep -o 'm[+-][0-9].'|sed 's/[+m]//g')
+wind="🌬"
+low=$(cat ~/.cache/weatherreport|sed '14q;d'|grep -o 'm[+-]*[0-9].'|sed 's/[+m]//g'|sort|head -n1)
+high=$(cat ~/.cache/weatherreport|sed '14q;d'|grep -o 'm[+-]*[0-9].'|sed 's/[+m]//g'|sort|tail -n1)
+
 case $skystate in
-    Sunny)
-        printf "☀ %s°\n" $temp;;
-    Clear)
-        printf "☀ %s°\n" $temp;;
+    Sunny | Clear)
+        icon="☀";;
     Overcast)    
-        printf "☁ %s°\n" $temp;;
+        icon="☁";;
     Rain)    
-        printf "🌧 %s°\n" $temp;;
+        icon="🌧";;
     Snow)
-        printf "🌨 %s°\n" $temp;;
+        icon="🌨";;
     Patchy)
-        printf "🌦 %s°\n" $temp;;
+        icon="🌦";;
     Mist | Fog)
-        printf "🌫 %s°\n" $temp;;
+        icon="🌫";;
     Partly | Cloudy)
-        printf "⛅ %s°\n" $temp;;
+        icon="⛅";;
     *)
-        printf "🍄 %s°\n" $temp;;
+        icon="🍄";;
 esac
+printf "%s %d° %s %d-%dMPH\n" $icon $temp $wind $low $high
 }
+
 
 
 
 case $BLOCK_BUTTON in
 	1) setsid -f "$TERMINAL" -e less -Sf "$weatherreport" ;;
-	2) getforecast && showweather ;;
+	2) getforecast && getinfo ;;
 	3) notify-send "🌈 Weather module" "\- Left click for full forecast.
 - Middle click to update forecast.
-☔: Chance of rain/snow
-🥶: Daily low
-🌞: Daily high" ;;
+☀: Weather Current
+°: Current Temp °F
+🌬:Wind low rate MPH
+🌬: Wind high rate MPH" ;;
 	6) setsid -f "$TERMINAL" -e "$EDITOR" "$0" ;;
 esac
 
