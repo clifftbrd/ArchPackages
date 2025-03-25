@@ -21,8 +21,8 @@ getinfo() {
 skystate=$(cat ~/.cache/weatherreport|sed '3q;d'|grep -o "[A-Z][a-z]*")
 temp=$(cat ~/.cache/weatherreport|sed '4q;d'|grep -o 'm[+-][0-9].'|sed 's/[+m]//g')
 wind="🌬"
-low=$(cat ~/.cache/weatherreport|sed '14q;d'|grep -o 'm[+-]*[0-9].'|sed 's/[+m]//g'|sort|head -n1)
-high=$(cat ~/.cache/weatherreport|sed '14q;d'|grep -o 'm[+-]*[0-9].'|sed 's/[+m]//g'|sort|tail -n1)
+low=$(cat ~/.cache/weatherreport|sed '14q;d'|grep -o "m[0-9]\\+"|sed 's/m//g'|sort -h|head -n1)
+high=$(cat ~/.cache/weatherreport|sed '14q;d'|grep -o "m[0-9]\\+"|sed 's/m//g'|sort -h|tail -n1)
 
 case $skystate in
     Sunny | Clear)
@@ -42,7 +42,7 @@ case $skystate in
     *)
         icon="🍄";;
 esac
-printf "%s %d° %s %d-%dMPH\n" $icon $temp $wind $low $high
+printf "%s %d° %s %s-%sMPH\n" $icon $temp $wind $low $high 
 }
 
 
