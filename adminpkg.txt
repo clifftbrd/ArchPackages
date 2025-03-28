@@ -7,7 +7,6 @@ gparted
 gsfonts
 imagemagick
 intel-ucode
-firefox
 lsb-release
 man-db
 networkmanager-openvpn
