@@ -1,0 +1,66 @@
+#!/bin/bash
+
+#Shows the weather with icon for sky image
+
+url="${WTTRURL:-wttr.in}"
+weatherreport="${XDG_CACHE_HOME:-$HOME/.cache}/weatherline"
+
+# Get a weather report from 'wttr.in' and save it locally.
+getforecast() { timeout --signal=1 5s curl -sf "$url/?format=%C,%m,%t,%w,%S,%s\n" > "$weatherreport" || exit 1; }
+
+# Check if the local file is younger than 1 hour and is not empty
+checkforecast() {
+    now=$(date +%s)
+    weatherdate=$(stat -c %Y ~/.cache/weatherline)
+    delta=$(expr $now - $weatherdate)
+    [ $delta -lt 3600 ] && [ -s ~/.cache/weatherline ]
+}
+
+# Read local file to extract temp and sky image
+getinfo() {
+
+sky=$(awk -F',' '{ print $1 }' ~/.cache/weatherline)
+moon=$(awk -F',' '{ print $2 }' ~/.cache/weatherline)
+temp=$(awk -F',' '{ print $3 }' ~/.cache/weatherline)
+wind=$(awk -F',' '{ print $4 }' ~/.cache/weatherline)
+case $sky in
+    Sunny | Clear)
+        icon="☀";;
+    Overcast)    
+        icon="☁";;
+    Rain)    
+        icon="🌧";;
+    Snow)
+        icon="🌨";;
+    Patchy)
+        icon="🌦";;
+    Mist | Fog)
+        icon="🌫";;
+    "Partly cloudy" | Cloudy)
+        icon="⛅";;
+    *)
+        icon="🍄";;
+esac
+    printf "%s %s° %s %s %s\n" $icon $temp $wind $moon 
+}
+
+
+
+
+case $BLOCK_BUTTON in
+	1) notify-send "Info now:
+        Visibility $(awk -F',' '{print $1}' ~/.cache/weatherline)
+        Sunrise $(awk -F',' '{print $5}' ~/.cache/weatherline)
+        Sunset $(awk -F',' '{print $6}' ~/.cache/weatherline)";;
+    2) getforecast && getinfo ;;
+	3) notify-send "🌈 Weather module" "\- Left click for full forecast.
+- Middle click to update forecast.
+☀: Weather Current
+°: Current Temp °F
+🌬:Wind low rate MPH
+🌬: Wind high rate MPH" ;;
+	6) setsid -f "$TERMINAL" -e "$EDITOR" "$0" ;;
+esac
+
+checkforecast || getforecast && getinfo
+# sleep 5 && getinfo
