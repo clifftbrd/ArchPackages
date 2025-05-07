@@ -1,9 +1,0 @@
-gst-plugin-pipewire
-pamixer
-playerctl
-libpulse
-pipewire
-pipewire-alsa
-pipewire-jack
-pipewire-pulse
-wireplumber

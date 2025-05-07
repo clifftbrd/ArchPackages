@@ -1,6 +1,0 @@
-avahi
-nss-mdns
-bind
-cups
-gutenprint
-system-config-printer
